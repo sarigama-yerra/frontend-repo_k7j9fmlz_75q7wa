@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 
 const KIND_COLORS = {
@@ -9,7 +9,9 @@ const KIND_COLORS = {
 };
 
 export default function QuickAdd({ onAdded }) {
-  const [open, setOpen] = useState(false);
+  // Open the modal immediately when this component is mounted (triggered by the 
+  // global \'+ Add\' button). This avoids having to click twice.
+  const [open, setOpen] = useState(true);
   const [form, setForm] = useState({ amount: '', description: '', category: 'Salary', kind: 'income', account: 'Checking', date: new Date().toISOString().slice(0,16) });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -29,7 +31,7 @@ export default function QuickAdd({ onAdded }) {
 
   return (
     <div>
-      <button onClick={() => setOpen(true)} className="fixed bottom-6 right-6 z-20 w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-2xl shadow-lg">+</button>
+      {/* Floating button is unnecessary here since this component is mounted on demand. */}
       {open && (
         <div className="fixed inset-0 z-30 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
